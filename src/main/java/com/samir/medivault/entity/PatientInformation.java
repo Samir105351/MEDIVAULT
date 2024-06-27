@@ -3,13 +3,12 @@ package com.samir.medivault.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.util.Date;
 import java.util.List;
 
 @Entity
 @Table(name = "PATIENT_INFORMATION")
 @Data
-public class Patient {
+public class PatientInformation {
 
     @Id
     @Column(name = "ID", nullable = false)
@@ -26,5 +25,5 @@ public class Patient {
 
     @JoinColumn(name = "PATIENT_INFORMATION")
     @OneToMany
-    private List<Prescription> patients;
+    private List<PrescriptionDetails> patients;
 }

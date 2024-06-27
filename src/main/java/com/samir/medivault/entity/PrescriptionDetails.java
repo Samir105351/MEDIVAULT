@@ -8,7 +8,7 @@ import java.util.Date;
 @Entity
 @Table(name = "PRESCRIPTION_DETAILS")
 @Data
-public class Prescription {
+public class PrescriptionDetails {
 
     @Id
     @Column(name = "ID", nullable = false)
@@ -28,5 +28,5 @@ public class Prescription {
 
     @JoinColumn(name = "PATIENT_INFORMATION")
     @ManyToOne
-    private Patient patient;
+    private PatientInformation patientInformation;
 }
