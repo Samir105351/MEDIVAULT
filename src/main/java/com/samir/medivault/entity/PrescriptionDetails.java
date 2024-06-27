@@ -24,7 +24,7 @@ public class PrescriptionDetails {
     private String medicine;
 
     @Column(name = "NEXT_VISIT_DATE")
-    private String nextVisitDate;
+    private Date nextVisitDate;
 
     @JoinColumn(name = "PATIENT_INFORMATION")
     @ManyToOne
