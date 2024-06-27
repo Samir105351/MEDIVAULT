@@ -14,7 +14,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Entity
-@Table(name = "PATIENT_INFORMATION")
+@Table(name = "USER_INFO")
 @Data
 @Builder
 @AllArgsConstructor
