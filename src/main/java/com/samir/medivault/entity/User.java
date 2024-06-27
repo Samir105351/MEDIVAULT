@@ -38,6 +38,7 @@ public class User implements UserDetails {
     private String password;
 
     @Column(name = "ROLE")
+    @Enumerated(EnumType.STRING)
     private Role role;
 
     @JoinColumn(name = "PATIENT_INFORMATION")
