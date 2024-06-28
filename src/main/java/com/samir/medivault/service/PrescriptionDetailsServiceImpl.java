@@ -6,7 +6,11 @@ import com.samir.medivault.entity.PrescriptionDetails;
 import com.samir.medivault.enums.Status;
 import com.samir.medivault.repository.PrescriptionDetailsRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
 
 @Service
 @RequiredArgsConstructor
@@ -78,5 +82,11 @@ public class PrescriptionDetailsServiceImpl implements PrescriptionDetailsServic
         return new PrescriptionResponse(
                 Status.SUCCESSFUL,
                 "Prescription deleted successfully");
+    }
+
+    @Override
+    public Page<PrescriptionResponse> getPaginatedPrescription(Pageable pageable) {
+        Page<PrescriptionDetails> prescriptionDetailsList = prescriptionDetailsRepository.findAllByCurrentMonth(new Date(),pageable);
+        return null;
     }
 }
