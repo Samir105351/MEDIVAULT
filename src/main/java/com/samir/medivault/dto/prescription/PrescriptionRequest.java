@@ -5,7 +5,7 @@ import com.samir.medivault.enums.Gender;
 import java.util.Date;
 
 public record PrescriptionRequest(
-        Date PrescriptionDate,
+        Date prescriptionDate,
         String patientName,
         Long patientAge,
         Gender patientGender,
