@@ -1,5 +1,6 @@
 package com.samir.medivault.service;
 
+import com.samir.medivault.dto.prescription.PrescriptionDetailsResponse;
 import com.samir.medivault.dto.prescription.PrescriptionRequest;
 import com.samir.medivault.dto.prescription.PrescriptionResponse;
 import com.samir.medivault.entity.PrescriptionDetails;
@@ -11,12 +12,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
-public class PrescriptionDetailsServiceImpl implements PrescriptionDetailsService{
+public class PrescriptionDetailsServiceImpl implements PrescriptionDetailsService {
     private final PrescriptionDetailsRepository prescriptionDetailsRepository;
     private final UserService userService;
+
     @Override
     public PrescriptionResponse createPrescription(PrescriptionRequest prescriptionRequest) {
         PrescriptionDetails prescriptionDetails = PrescriptionDetails
@@ -42,9 +45,9 @@ public class PrescriptionDetailsServiceImpl implements PrescriptionDetailsServic
     @Override
     public PrescriptionResponse updatePrescription(Long prescriptionId, PrescriptionRequest prescriptionRequest) {
         PrescriptionDetails prevPrescriptionDetails = prescriptionDetailsRepository.findById(prescriptionId)
-                .orElseThrow(()->new RuntimeException(STR."Prescription not found with id: \{prescriptionId}"));
+                .orElseThrow(() -> new RuntimeException(STR."Prescription not found with id: \{prescriptionId}"));
 
-        if(prevPrescriptionDetails.getUser() != userService.getCurrentUser()){
+        if (prevPrescriptionDetails.getUser() != userService.getCurrentUser()) {
             throw new RuntimeException("You are trying to access a prescription belonging to a different user");
         }
 
@@ -71,9 +74,9 @@ public class PrescriptionDetailsServiceImpl implements PrescriptionDetailsServic
     @Override
     public PrescriptionResponse deletePrescription(Long prescriptionId) {
         PrescriptionDetails prevPrescriptionDetails = prescriptionDetailsRepository.findById(prescriptionId)
-                .orElseThrow(()->new RuntimeException(STR."Prescription not found with id: \{prescriptionId}"));
+                .orElseThrow(() -> new RuntimeException(STR."Prescription not found with id: \{prescriptionId}"));
 
-        if(prevPrescriptionDetails.getUser() != userService.getCurrentUser()){
+        if (prevPrescriptionDetails.getUser() != userService.getCurrentUser()) {
             throw new RuntimeException("You are trying to access a prescription belonging to a different user");
         }
 
@@ -85,8 +88,29 @@ public class PrescriptionDetailsServiceImpl implements PrescriptionDetailsServic
     }
 
     @Override
-    public Page<PrescriptionResponse> getPaginatedPrescription(Pageable pageable) {
-        Page<PrescriptionDetails> prescriptionDetailsList = prescriptionDetailsRepository.findAllByCurrentMonth(new Date(),pageable);
-        return null;
+    public Page<PrescriptionDetailsResponse> getPaginatedPrescription(Pageable pageable, Date fromDate, Date toDate) {
+        if (Objects.isNull(fromDate) && Objects.isNull(toDate)) {
+            Page<PrescriptionDetails> prescriptionDetailsList = prescriptionDetailsRepository.findAllByCurrentMonth(new Date(), pageable, userService.getCurrentUser());
+            return prescriptionDetailsList.map(prescriptionDetails -> new PrescriptionDetailsResponse(
+                    prescriptionDetails.getPrescriptionDate(),
+                    prescriptionDetails.getPatientName(),
+                    prescriptionDetails.getPatientAge(),
+                    prescriptionDetails.getPatientGender(),
+                    prescriptionDetails.getDiagnosis(),
+                    prescriptionDetails.getMedicine(),
+                    prescriptionDetails.getNextVisitDate()
+            ));
+        } else {
+            Page<PrescriptionDetails> prescriptionDetailsList = prescriptionDetailsRepository.findAllByPrescriptionDateRange(fromDate, toDate, pageable, userService.getCurrentUser());
+            return prescriptionDetailsList.map(prescriptionDetails -> new PrescriptionDetailsResponse(
+                    prescriptionDetails.getPrescriptionDate(),
+                    prescriptionDetails.getPatientName(),
+                    prescriptionDetails.getPatientAge(),
+                    prescriptionDetails.getPatientGender(),
+                    prescriptionDetails.getDiagnosis(),
+                    prescriptionDetails.getMedicine(),
+                    prescriptionDetails.getNextVisitDate()
+            ));
+        }
     }
 }
