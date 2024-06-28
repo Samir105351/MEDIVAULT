@@ -32,7 +32,7 @@ public class User implements UserDetails {
     @Column(name = "LAST_NAME")
     private String lastName;
 
-    @Column(name = "EMAIL")
+    @Column(name = "EMAIL", unique = true, nullable = false)
     private String email;
 
     @Column(name = "PASSWORD")
@@ -43,7 +43,7 @@ public class User implements UserDetails {
     private Role role;
 
     @JoinColumn(name = "PRESCRIPTION_DETAILS")
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<PrescriptionDetails> prescriptionDetailsList;
 
 
