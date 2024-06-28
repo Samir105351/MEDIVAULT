@@ -1,4 +1,4 @@
-package com.samir.medivault.dto;
+package com.samir.medivault.dto.register;
 
 import com.samir.medivault.enums.Status;
 

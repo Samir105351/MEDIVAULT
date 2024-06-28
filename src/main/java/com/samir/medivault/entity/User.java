@@ -42,9 +42,9 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @JoinColumn(name = "PATIENT_INFORMATION")
-    @OneToOne(cascade = CascadeType.ALL)
-    private PatientInformation patientInformation;
+    @JoinColumn(name = "PRESCRIPTION_DETAILS")
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<PrescriptionDetails> prescriptionDetailsList;
 
 
     @Override

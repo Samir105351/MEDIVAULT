@@ -1,14 +1,12 @@
 package com.samir.medivault.config;
 
-import com.samir.medivault.dto.AuthenticationRequest;
-import com.samir.medivault.dto.AuthenticationResponse;
-import com.samir.medivault.dto.RegisterRequest;
-import com.samir.medivault.dto.RegisterResponse;
-import com.samir.medivault.entity.PatientInformation;
+import com.samir.medivault.dto.authentication.AuthenticationRequest;
+import com.samir.medivault.dto.authentication.AuthenticationResponse;
+import com.samir.medivault.dto.register.RegisterRequest;
+import com.samir.medivault.dto.register.RegisterResponse;
 import com.samir.medivault.entity.User;
 import com.samir.medivault.enums.Role;
 import com.samir.medivault.enums.Status;
-import com.samir.medivault.repository.PatientInformationRepository;
 import com.samir.medivault.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -22,21 +20,12 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class AuthenticationService {
     private final UserRepository userRepository;
-    private final PatientInformationRepository patientInformationRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
     @Transactional
     public RegisterResponse register(RegisterRequest request) {
-        PatientInformation patientInformation = PatientInformation
-                .builder()
-                .patientGender(request.patientGender())
-                .patientAge(request.patientAge())
-                .patientName(STR."\{request.firstName()} \{request.lastName()}")
-                .build();
-        PatientInformation savedPatientInformation = patientInformationRepository.save(patientInformation);
-
         User user = User
                 .builder()
                 .firstName(request.firstName())
@@ -44,7 +33,6 @@ public class AuthenticationService {
                 .email(request.email())
                 .password(passwordEncoder.encode(request.password()))
                 .role(Role.USER)
-                .patientInformation(savedPatientInformation)
                 .build();
         userRepository.save(user);
 

@@ -1,10 +1,10 @@
 package com.samir.medivault.controller;
 
 import com.samir.medivault.config.AuthenticationService;
-import com.samir.medivault.dto.AuthenticationRequest;
-import com.samir.medivault.dto.AuthenticationResponse;
-import com.samir.medivault.dto.RegisterRequest;
-import com.samir.medivault.dto.RegisterResponse;
+import com.samir.medivault.dto.authentication.AuthenticationRequest;
+import com.samir.medivault.dto.authentication.AuthenticationResponse;
+import com.samir.medivault.dto.register.RegisterRequest;
+import com.samir.medivault.dto.register.RegisterResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
