@@ -43,7 +43,7 @@ public class User implements UserDetails {
     private Role role;
 
     @JoinColumn(name = "PATIENT_INFORMATION")
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private PatientInformation patientInformation;
 
 

@@ -33,6 +33,6 @@ public class PatientInformation {
     private Gender patientGender;
 
     @JoinColumn(name = "PRESCRIPTION_DETAILS")
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<PrescriptionDetails> prescriptionDetails;
 }

@@ -34,6 +34,6 @@ public class PrescriptionDetails {
     private Date nextVisitDate;
 
     @JoinColumn(name = "PATIENT_INFORMATION")
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private PatientInformation patientInformation;
 }
