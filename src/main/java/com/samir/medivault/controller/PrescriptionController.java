@@ -6,9 +6,7 @@ import com.samir.medivault.service.PrescriptionDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequiredArgsConstructor
@@ -19,6 +17,16 @@ public class PrescriptionController {
 @PostMapping("/create")
     ResponseEntity<PrescriptionResponse> createPrescription(@RequestBody PrescriptionRequest prescriptionRequest){
         return ResponseEntity.ok(prescriptionDetailsService.createPrescription(prescriptionRequest));
+}
+
+@PutMapping("/update/{prescriptionId}")
+    ResponseEntity<PrescriptionResponse> updatePrescription(@PathVariable Long prescriptionId, @RequestBody PrescriptionRequest prescriptionRequest){
+    return ResponseEntity.ok(prescriptionDetailsService.updatePrescription(prescriptionId, prescriptionRequest));
+}
+
+@DeleteMapping("/delete/{prescriptionId}")
+    ResponseEntity<PrescriptionResponse> deletePrescription(@PathVariable Long prescriptionId){
+    return ResponseEntity.ok(prescriptionDetailsService.deletePrescription(prescriptionId));
 }
 
 }

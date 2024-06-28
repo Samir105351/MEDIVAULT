@@ -5,4 +5,8 @@ import com.samir.medivault.dto.prescription.PrescriptionResponse;
 
 public interface PrescriptionDetailsService {
     PrescriptionResponse createPrescription(PrescriptionRequest prescriptionRequest);
+
+    PrescriptionResponse updatePrescription(Long prescriptionId, PrescriptionRequest prescriptionRequest);
+
+    PrescriptionResponse deletePrescription(Long prescriptionId);
 }
