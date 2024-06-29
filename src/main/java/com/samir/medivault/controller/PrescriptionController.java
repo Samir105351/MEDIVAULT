@@ -12,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Controller
@@ -36,12 +38,21 @@ public class PrescriptionController {
     }
 
     @GetMapping("/get")
-    ResponseEntity<Page<PrescriptionDetailsResponse>> getPrescriptionDetails(@RequestParam(required = false) Date fromDate,
-                                                                             @RequestParam(required = false) Date toDate,
+    ResponseEntity<Page<PrescriptionDetailsResponse>> getPrescriptionDetails(@RequestParam(required = false) String fromDate,
+                                                                             @RequestParam(required = false) String toDate,
                                                                              @RequestParam(defaultValue = "0") int page,
                                                                              @RequestParam(defaultValue = "10") int size) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+        Date fromDateValue = null;
+        Date toDateValue = null;
         Pageable pageable = PageRequest.of(page, size);
-        return ResponseEntity.ok(prescriptionDetailsService.getPaginatedPrescription(pageable, fromDate, toDate));
+        try {
+            fromDateValue = dateFormat.parse(fromDate);
+            toDateValue = dateFormat.parse(toDate);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+        return ResponseEntity.ok(prescriptionDetailsService.getPaginatedPrescription(pageable, fromDateValue, toDateValue));
     }
 
 }
